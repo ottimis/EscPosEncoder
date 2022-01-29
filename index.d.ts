@@ -5,7 +5,15 @@ export default class EscPosEncoder {
    * @return {object}          Return the object, for easy chaining commands
    *
    */
-  initialize(): any;
+  initialize(): EscPosEncoder;
+
+  /**
+     * Set SUNMI UTF-8 mode
+     *
+     * @return {object}          Return the object, for easy chaining commands
+     *
+     */
+  utf8(): EscPosEncoder;
 
   /**
    * Change the code page
@@ -14,7 +22,7 @@ export default class EscPosEncoder {
    * @return {object}          Return the object, for easy chaining commands
    *
    */
-  codepage(value: string): any;
+  codepage(value: string): EscPosEncoder;
 
   /**
    * Print text
@@ -24,7 +32,17 @@ export default class EscPosEncoder {
    * @return {object}          Return the object, for easy chaining commands
    *
    */
-  text(value: string, wrap: number): any;
+  text(value: string, wrap?: number): EscPosEncoder;
+
+  /**
+     * Print text
+     *
+     * @param  {string}   value  Text that needs to be printed
+     * @param  {number}   wrap   Wrap text after this many positions
+     * @return {object}          Return the object, for easy chaining commands
+     *
+     */
+  text8(value: string, wrap?: number): EscPosEncoder;
 
   /**
    * Print a newline
@@ -32,7 +50,7 @@ export default class EscPosEncoder {
    * @return {object}          Return the object, for easy chaining commands
    *
    */
-  newline(): any;
+  newline(): EscPosEncoder;
 
   /**
    * Print text, followed by a newline
@@ -42,7 +60,17 @@ export default class EscPosEncoder {
    * @return {object}          Return the object, for easy chaining commands
    *
    */
-  line(value: string, wrap: number): any;
+  line(value: string, wrap?: number): EscPosEncoder;
+
+  /**
+     * Print UTF-8 text, followed by a newline
+     *
+     * @param  {string}   value  Text that needs to be printed
+     * @param  {number}   wrap   Wrap text after this many positions
+     * @return {object}          Return the object, for easy chaining commands
+     *
+     */
+  line8(value: string, wrap?: number): EscPosEncoder;
 
   /**
    * Underline text
@@ -51,7 +79,7 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  underline(value: boolean): any;
+  underline(value: boolean): EscPosEncoder;
 
   /**
    * Italic text
@@ -60,7 +88,7 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  italic(value: boolean): any;
+  italic(value: boolean): EscPosEncoder;
 
   /**
    * Bold text
@@ -69,7 +97,7 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  bold(value: boolean): any;
+  bold(value: boolean): EscPosEncoder;
 
   /**
    * Change text size
@@ -78,7 +106,7 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  size(value: string): any;
+  size(value: string): EscPosEncoder;
 
   /**
    * Change text alignment
@@ -87,7 +115,7 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  align(value: string): any;
+  align(value: string): EscPosEncoder;
 
   /**
    * Barcode
@@ -98,7 +126,7 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  barcode(value: string, symbology: string, height: number): any;
+  barcode(value: string, symbology: string, height: number): EscPosEncoder;
 
   /**
    * QR code
@@ -110,7 +138,7 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  qrcode(value: string, model: number, size: number, errorlevel: string): any;
+  qrcode(value: string, model?: number, size?: number, errorlevel?: string): EscPosEncoder;
 
   /**
    * Image
@@ -127,9 +155,9 @@ export default class EscPosEncoder {
     element: any,
     width: number,
     height: number,
-    algorithm: string,
-    threshold: number
-  ): any;
+    algorithm?: string,
+    threshold?: number
+  ): EscPosEncoder;
 
   /**
    * Cut paper
@@ -138,21 +166,21 @@ export default class EscPosEncoder {
    * @return {object}                  Return the object, for easy chaining commands
    *
    */
-  cut(value: string): any;
+  cut(value: string): EscPosEncoder;
 
   /**
    * Beeper sound functionality
    *
    * @return {object}                  Return the object, for easy chaining commands
    */
-  beeper(): any;
+  beeper(): EscPosEncoder;
 
   /**
    * Open cash drawer
    *
    * @return {object}                  Return the object, for easy chaining commands
    */
-  openCashDrawer(): any;
+  openCashDrawer(): EscPosEncoder;
 
   /**
    * Add raw printer commands
@@ -161,7 +189,7 @@ export default class EscPosEncoder {
    * @return {object}          Return the object, for easy chaining commands
    *
    */
-  raw(data: any[]): any;
+  raw(data: any[]): EscPosEncoder;
 
   /**
    * Encode all previous commands
@@ -169,5 +197,33 @@ export default class EscPosEncoder {
    * @return {Uint8Array}         Return the encoded bytes
    *
    */
-  encode(): any;
+  encode(): EscPosEncoder;
+
+  /**
+   * Set text height
+   *
+   * @param {number} value Decimal value of height
+   * @return {object}  Return the object, for easy chaining commands
+   *
+   */
+  height(value: number): EscPosEncoder;
+
+  /**
+   * Set text width
+   *
+   * @param {number} value Decimal value of width
+   * @return {object}  Return the object, for easy chaining commands
+   *
+   */
+  width(value: number): EscPosEncoder;
+
+  /**
+   * Set beepQty and beepDuration
+   *
+   * @param {number} beepQty
+   * @param {number} beepDuration
+   * @return {object}  Return the object, for easy chaining commands
+   *
+   */
+  beep(beepQty: number, beepDuration: number): EscPosEncoder;
 }

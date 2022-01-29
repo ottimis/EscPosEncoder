@@ -45,6 +45,46 @@ class EscPosEncoder {
     }
 
     /**
+     * Convert text to UTF-8 bytearray 
+     * 
+     * @param  {string}   value  String to convert
+     * @return {object}          Return the byte array
+     */
+    toUTF8Array(str) {
+      if (!str) {
+        return [];
+      }
+      var utf8 = [];
+      for (var i = 0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+            0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+            0x80 | ((charcode >> 6) & 0x3f),
+            0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff) << 10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >> 18),
+            0x80 | ((charcode >> 12) & 0x3f),
+            0x80 | ((charcode >> 6) & 0x3f),
+            0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+
+    /**
      * Add commands to the buffer
      *
      * @param  {array}   value  And array of numbers, arrays, buffers or Uint8Arrays to add to the buffer
@@ -66,6 +106,19 @@ class EscPosEncoder {
         ]);
 
         return this;
+    }
+
+    /**
+     * Set SUNMI UTF-8 mode
+     *
+     * @return {object}          Return the object, for easy chaining commands
+     *
+     */
+    utf8() {
+      this._queue([
+        0x1C, 0x26, 0x1C, 0x43, 0xFF
+      ]);
+      return this;
     }
 
     /**
@@ -170,6 +223,29 @@ class EscPosEncoder {
     }
 
     /**
+     * Print text
+     *
+     * @param  {string}   value  Text that needs to be printed
+     * @param  {number}   wrap   Wrap text after this many positions
+     * @return {object}          Return the object, for easy chaining commands
+     *
+     */
+    text8(value, wrap) {
+        if (wrap) {
+            let w = linewrap(wrap, {lineBreak: '\r\n'});
+            value = w(value);
+        }
+
+        let bytes = this.toUTF8Array(value);
+
+        this._queue([
+            bytes,
+        ]);
+
+        return this;
+    }
+
+    /**
      * Print a newline
      *
      * @return {object}          Return the object, for easy chaining commands
@@ -193,6 +269,21 @@ class EscPosEncoder {
      */
     line(value, wrap) {
         this.text(value, wrap);
+        this.newline();
+
+        return this;
+    }
+
+    /**
+     * Print UTF-8 text, followed by a newline
+     *
+     * @param  {string}   value  Text that needs to be printed
+     * @param  {number}   wrap   Wrap text after this many positions
+     * @return {object}          Return the object, for easy chaining commands
+     *
+     */
+    line8(value, wrap) {
+        this.text8(value, wrap);
         this.newline();
 
         return this;
@@ -604,6 +695,49 @@ class EscPosEncoder {
 
         return result;
     }
+
+  /**
+   * Set beepQty and beepDuration
+   *
+   * @param {number} beepQty
+   * @param {number} beepDuration
+   * @return {object}  Return the object, for easy chaining commands
+   *
+   */
+  beep(beepQty, beepDuration) {
+    this._queue([
+      0x1d, 0x07, beepQty.toString(2), 0x04, beepDuration.toString(2)
+    ]);
+    return this;
+  }
+
+  /**
+   * Set text height
+   *
+   * @param {number} value Decimal value of height
+   * @return {object}  Return the object, for easy chaining commands
+   *
+   */
+  height(value) {
+    this._queue([
+      0x1d, 0x21, value.toString(16)
+    ]);
+    return this;
+  }
+
+  /**
+   * Set text width
+   *
+   * @param {number} value Decimal value of width
+   * @return {object}  Return the object, for easy chaining commands
+   *
+   */
+  width(value) {
+    this._queue([
+      0x1d, 0x21, value.toString(16)
+    ]);
+    return this;
+  }
 }
 
 module.exports = EscPosEncoder;

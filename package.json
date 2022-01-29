@@ -1,6 +1,6 @@
 {
-  "name": "esc-pos-encoder-ionic",
-  "version": "1.1.3",
+  "name": "@ottimis/esc-pos-encoder-ionic",
+  "version": "2.0.3",
   "description": "Create a set of commands that can be send to any receipt printer that supports ESC/POS. Support Ionic (Typescript)",
   "main": "src/esc-pos-encoder.js",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ans0n-Ti0/EscPosEncoder.git"
+    "url": "git+https://github.com/ottimis/EscPosEncoder.git"
   },
   "keywords": [
     "pos",
@@ -27,12 +27,12 @@
   "author": "Anson Tio",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Ans0n-Ti0/EscPosEncoder/issues"
+    "url": "https://github.com/ottimis/EscPosEncoder/issues"
   },
-  "homepage": "https://github.com/Ans0n-Ti0/EscPosEncoder#readme",
+  "homepage": "https://github.com/ottimis/EscPosEncoder#readme",
   "devDependencies": {
-    "browserify": "^16.5.0",
-    "chai": "^4.2.0",
+    "browserify": "^17.0.0",
+    "chai": "^4.3.6",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "mocha": "^4.1.0",
@@ -40,10 +40,10 @@
   },
   "dependencies": {
     "buffer-to-uint8array": "^1.1.0",
-    "canvas": "^2.6.1",
-    "canvas-dither": "^1.0.0",
-    "canvas-flatten": "^1.0.0",
-    "iconv-lite": "^0.4.19",
+    "canvas": "^2.9.0",
+    "canvas-dither": "^1.0.1",
+    "canvas-flatten": "^1.0.1",
+    "iconv-lite": "^0.6.3",
     "linewrap": "^0.2.1"
   }
 }
